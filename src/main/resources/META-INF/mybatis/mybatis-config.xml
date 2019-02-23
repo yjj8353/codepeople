@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings><setting name="jdbcTypeForNull" value="NULL"/></settings>
+	<typeAliases>
+		<typeAlias alias="User" type="com.jhta.cope.vo.User"/>
+		<typeAlias alias="Avatar" type="com.jhta.cope.vo.Avatar"/>
+		<typeAlias alias="Badge" type="com.jhta.cope.vo.Badge"/>
+		<typeAlias alias="Chat" type="com.jhta.cope.vo.Chat"/>
+		<typeAlias alias="Follow" type="com.jhta.cope.vo.Follow"/>
+		<typeAlias alias="PaidLecture" type="com.jhta.cope.vo.PaidLecture"/>
+		<typeAlias alias="PaidLectureDetail" type="com.jhta.cope.vo.PaidLectureDetail"/>
+		<typeAlias alias="Qna" type="com.jhta.cope.vo.Qna"/>
+		<typeAlias alias="QnaAnswer" type="com.jhta.cope.vo.QnaAnswer"/>
+		<typeAlias alias="QnaComment" type="com.jhta.cope.vo.QnaComment"/>
+		<typeAlias alias="Instructor" type="com.jhta.cope.vo.Instructor"/>
+		<typeAlias alias="InstructorNotice" type="com.jhta.cope.vo.InstructorNotice"/>
+		<typeAlias alias="Criteria" type="com.jhta.cope.vo.Criteria"/>
+		<typeAlias alias="FreeLecture" type="com.jhta.cope.vo.FreeLecture"/>
+		<typeAlias alias="FreeLectureSection" type="com.jhta.cope.vo.FreeLectureSection"/>
+		<typeAlias alias="FreeLectureComent" type="com.jhta.cope.vo.FreeLectureComent"/>
+		<typeAlias alias="FreeLectureViews" type="com.jhta.cope.vo.FreeLectureViews"/>		
+		<typeAlias alias="Cart" type="com.jhta.cope.vo.Cart"/>
+		<typeAlias alias="UserLog" type="com.jhta.cope.vo.UserLog"/>
+		<typeAlias alias="BuyLecture" type="com.jhta.cope.vo.BuyLecture"/>
+		<typeAlias alias="FreeLectureComentReply" type="com.jhta.cope.vo.FreeLectureComentReply"/>
+		<typeAlias alias="LectureHistory" type="com.jhta.cope.vo.LectureHistory"/>
+		<typeAlias alias="Note" type="com.jhta.cope.vo.Note"/>
+		<typeAlias alias="Notice" type="com.jhta.cope.vo.Notice"/>
+		<typeAlias alias="PaidLectureLike" type="com.jhta.cope.vo.PaidLectureLike"/>
+		<typeAlias alias="PaidLectureWrapper" type="com.jhta.cope.vo.PaidLectureWrapper"/>
+		<typeAlias alias="VisitorCount" type="com.jhta.cope.vo.VisitorCount"/>
+		<typeAlias alias="Bookmark" type="com.jhta.cope.vo.Bookmark"/>
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="META-INF/mybatis/mappers/user.xml" />
+		<mapper resource="META-INF/mybatis/mappers/qna.xml" />
+		<mapper resource="META-INF/mybatis/mappers/chat.xml" />
+		<mapper resource="META-INF/mybatis/mappers/paidlecture.xml" />
+		<mapper resource="META-INF/mybatis/mappers/manager.xml" />
+		<mapper resource="META-INF/mybatis/mappers/instructor.xml" />
+		<mapper resource="META-INF/mybatis/mappers/instructornotice.xml" />
+		<mapper resource="META-INF/mybatis/mappers/freelecture.xml" />
+		<mapper resource="META-INF/mybatis/mappers/cart.xml" />
+		<mapper resource="META-INF/mybatis/mappers/userLog.xml" />
+		<mapper resource="META-INF/mybatis/mappers/buyLecture.xml" />
+		<mapper resource="META-INF/mybatis/mappers/lectureHistory.xml" />
+		<mapper resource="META-INF/mybatis/mappers/note.xml" />
+		<mapper resource="META-INF/mybatis/mappers/paidLectureLike.xml" />
+		<mapper resource="META-INF/mybatis/mappers/bookmark.xml" />
+		
+	</mappers>
+</configuration>

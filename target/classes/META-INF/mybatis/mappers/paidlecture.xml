@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhta.cope.dao.PaidLectureDao">
+
+	<resultMap type="PaidLecture" id="paidLectureResultMap">
+		<id property="no" column="PAID_LECTURE_NO"/>
+		<result property="instructor.no" column="INSTRUCTOR_NO"/>
+		<result property="lang" column="LECTURE_LANG"/>
+		<result property="title" column="LECTURE_TITLE"/>
+		<result property="level" column="LECTURE_LEVEL"/>
+		<result property="specialized" column="LECTURE_SPECIALIZED"/>
+		<result property="summary" column="LECTURE_SUMMARY"/>
+		<result property="description" column="LECTURE_DESCRIPTION"/>
+		<result property="price" column="LECTURE_PRICE"/>
+		<result property="thumbnail" column="LECTURE_THUMNAIL_PATH"/>
+		<result property="createDate" column="LECTURE_CREATE_DATE"/>
+		<result property="like" column="LECTURE_LIKES"/>
+		<result property="viewCount" column="LECTURE_VIEW_COUNT"/>
+		<result property="exposureStatus" column="EXPOSURE_STATUS"/>
+		<result property="approveStatus" column="APPROVE_STATUS"/>
+	</resultMap>
+	
+	<select id="getPaidLectureByLectureNo" parameterType="int" resultMap="paidLectureResultMap">
+		select
+			PAID_LECTURE_NO,
+			INSTRUCTOR_NO,
+			LECTURE_LANG,
+			LECTURE_TITLE,
+			LECTURE_LEVEL,
+			LECTURE_SPECIALIZED,
+			LECTURE_SUMMARY,
+			LECTURE_DESCRIPTION,
+			LECTURE_PRICE,
+			LECTURE_THUMNAIL_PATH,
+			LECTURE_CREATE_DATE,
+			LECTURE_LIKES,
+			LECTURE_VIEW_COUNT,
+			EXPOSURE_STATUS,
+			APPROVE_STATUS
+		from 
+			PAID_LECTURE
+		where
+			PAID_LECTURE_NO = #{value}
+	</select>
+
+	<select id="getPaidLectureDetailByLectureNo" parameterType="int" resultType="PaidLectureDetail">
+		select
+			DETAIL_NO as no,
+			PAID_LECTURE_NO as "paidLecture.no",
+			FILEPATH as "filePath",
+			SECTION_NO as "sectionNo",
+			SECTION_NAME as "sectionName",
+			LESSON_NO as "lessonNo",
+			LESSON_NAME as "lessonName",
+			LESSON_LENGTH as "lessonLength"
+		from
+			PAID_LECTURE_DETAIL
+		where
+			PAID_LECTURE_NO = #{value}
+	</select>
+	
+	<select id="getPaidLectureDetailByDetailNo" parameterType="int" resultType="PaidLectureDetail">
+		select
+			DETAIL_NO as no,
+			PAID_LECTURE_NO as "paidLecture.no",
+			FILEPATH as "filePath",
+			SECTION_NO as "sectionNo",
+			SECTION_NAME as "sectionName",
+			LESSON_NO as "lessonNo",
+			LESSON_NAME as "lessonName",
+			LESSON_LENGTH as "lessonLength"
+		from
+			PAID_LECTURE_DETAIL
+		where
+			DETAIL_NO = #{value}
+	</select>
+	
+
+	
+	<insert id="insertPaidLectureDetail" parameterType="PaidLectureDetail">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+				select paidLectureDetail_no_seq.nextval from dual
+		</selectKey>
+		insert into PAID_LECTURE_DETAIL(
+			DETAIL_NO,
+			PAID_LECTURE_NO,
+			FILEPATH,
+			SECTION_NO,
+			SECTION_NAME,
+			LESSON_NO,
+			LESSON_NAME,
+			LESSON_LENGTH)
+		values (#{no}, #{paidLecture.no}, #{filePath}, #{sectionNo}, #{sectionName}, #{lessonNo}, #{lessonName}, #{lessonLength})
+	</insert>	
+	
+	
+	<select id="getPaidLectureByNo" parameterType="int" resultType="PaidLecture">
+		select 
+		    PAID_LECTURE_NO as no,
+		    INSTRUCTOR_NO as "instructor.no",
+		    LECTURE_LANG as lang,
+		    LECTURE_TITLE as title,
+		    LECTURE_LEVEL as "level",
+		    LECTURE_SPECIALIZED as specialized,
+		    LECTURE_SUMMARY as summary,
+		    LECTURE_DESCRIPTION as description,
+		    LECTURE_PRICE as price,
+		    LECTURE_THUMNAIL_PATH as thumbnail,
+		    LECTURE_CREATE_DATE as createDate,
+		    LECTURE_LIKES as "like",
+		    LECTURE_VIEW_COUNT as viewCount,
+		    EXPOSURE_STATUS as exposureStatus,
+		    APPROVE_STATUS as approveStatus
+		from
+		    PAID_LECTURE
+		where
+			PAID_LECTURE_NO = #{value}
+		and
+			EXPOSURE_STATUS = 'Y'
+		and
+			APPROVE_STATUS = 'Y'
+	</select>
+	
+	
+	
+		<select id="getPaidLectureByInstructorNo" parameterType="int" resultType="PaidLecture">
+		select 
+		    PAID_LECTURE_NO as no,
+		    INSTRUCTOR_NO as "instructor.no",
+		    LECTURE_LANG as lang,
+		    LECTURE_TITLE as title,
+		    LECTURE_LEVEL as "level",
+		    LECTURE_SPECIALIZED as specialized,
+		    LECTURE_SUMMARY as summary,
+		    LECTURE_DESCRIPTION as description,
+		    LECTURE_PRICE as price,
+		    LECTURE_THUMNAIL_PATH as thumbnail,
+		    LECTURE_CREATE_DATE as createDate,
+		    LECTURE_LIKES as "like",
+		    LECTURE_VIEW_COUNT as viewCount,
+		    EXPOSURE_STATUS as exposureStatus,
+		    APPROVE_STATUS as approveStatus
+		from
+		    PAID_LECTURE
+		where
+			INSTRUCTOR_NO = #{value}
+		order by LECTURE_CREATE_DATE desc
+			
+	</select>
+	
+	<select id="getPaidLectureByLang" parameterType="String" resultType="PaidLecture">
+		select 
+		    PAID_LECTURE_NO as no,
+		    INSTRUCTOR_NO as "instructor.no",
+		    LECTURE_LANG as lang,
+		    LECTURE_TITLE as title,
+		    LECTURE_LEVEL as "level",
+		    LECTURE_SPECIALIZED as specialized,
+		    LECTURE_SUMMARY as summary,
+		    LECTURE_DESCRIPTION as description,
+		    LECTURE_PRICE as price,
+		    LECTURE_THUMNAIL_PATH as thumbnail,
+		    LECTURE_CREATE_DATE as createDate,
+		    LECTURE_LIKES as "like",
+		    LECTURE_VIEW_COUNT as viewCount,
+		    EXPOSURE_STATUS as exposureStatus,
+		    APPROVE_STATUS as approveStatus
+		from
+		    PAID_LECTURE
+		where
+			LECTURE_LANG = #{value}
+		and
+			EXPOSURE_STATUS = 'Y'
+		and
+			APPROVE_STATUS = 'Y'
+			
+	</select>
+
+
+
+
+
+	<update id="updatePaidLecture" parameterType="PaidLecture">
+		update PAID_LECTURE
+		set
+			PAID_LECTURE_NO = #{no},
+		    INSTRUCTOR_NO = #{instructor.no},
+		    LECTURE_LANG = #{lang},
+		    LECTURE_TITLE = #{title},
+		    LECTURE_LEVEL = #{level},
+		    LECTURE_SPECIALIZED = #{specialized},
+		    LECTURE_SUMMARY = #{summary},
+		    LECTURE_DESCRIPTION = #{description},
+		    LECTURE_PRICE = #{price},
+		    LECTURE_THUMNAIL_PATH = #{thumbnail},
+		    LECTURE_CREATE_DATE = sysdate,
+		    LECTURE_LIKES = #{like},
+		    LECTURE_VIEW_COUNT = #{viewCount},
+		    EXPOSURE_STATUS = #{exposureStatus},
+		    APPROVE_STATUS = #{approveStatus}
+		where
+			PAID_LECTURE_NO = #{no}
+	</update>
+
+
+
+
+	<select id="getCountPaidLectureByLang" parameterType="String" resultType="int">
+	
+		SELECT
+			COUNT(*)
+		from
+			PAID_LECTURE
+		where
+			LECTURE_LANG = #{value}
+		and
+			EXPOSURE_STATUS = 'Y'
+		and
+			APPROVE_STATUS = 'Y'
+
+	</select>
+	
+	
+	<!-- 페이징 처리 및 검색 -->
+	
+	<select id="getPaidLectureByCriteria" resultMap="paidLectureResultMap" parameterType="Criteria">
+		select *
+		from (
+		select
+			<choose>
+				<when test="sort == 'likes'">
+					ROW_NUMBER() OVER(order by LECTURE_LIKES desc) rn,
+				</when>
+				<otherwise>
+					ROW_NUMBER() OVER(order by LECTURE_CREATE_DATE desc) rn,
+				</otherwise>
+			</choose>
+		    A.PAID_LECTURE_NO,
+		    A.INSTRUCTOR_NO,
+		    A.LECTURE_LANG,
+		    A.LECTURE_TITLE,
+		    A.LECTURE_LEVEL,
+		    A.LECTURE_SPECIALIZED,
+		    A.LECTURE_SUMMARY,
+		    A.LECTURE_DESCRIPTION,
+		    A.LECTURE_PRICE,
+		    A.LECTURE_THUMNAIL_PATH,
+		    A.LECTURE_CREATE_DATE,
+		    A.LECTURE_LIKES,
+		    A.LECTURE_VIEW_COUNT,
+		    A.EXPOSURE_STATUS,
+		    A.APPROVE_STATUS
+		from
+		    PAID_LECTURE A
+		where
+			LECTURE_LANG = #{lang}
+		and
+			EXPOSURE_STATUS = 'Y'
+		and
+			APPROVE_STATUS = 'Y'
+		<if test="keyword != null">
+			and LOWER(A.LECTURE_TITLE) like '%'||#{keyword} ||'%'
+		</if>
+		)
+		where rn &gt;= #{beginIndex}
+		and rn &lt;= #{endIndex}
+		
+		
+	</select>
+	
+</mapper>

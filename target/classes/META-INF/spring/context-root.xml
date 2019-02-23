@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	    
+    <!-- 메일 보내기 (SEND) -->
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="dev.SonSangGi@gmail.com" />
+      <property name="password" value="zxcv1234!!" />
+    
+
+      <!-- email 요청시는 SMTP -->
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.debug">true</prop>
+         </props>
+      </property>
+   </bean>
+   
+   <!-- Google 인증 및 로그인 -->
+   <bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+   	<constructor-arg value="313137637786-lrq4tkem6id22jkv4i47jgjp551creur.apps.googleusercontent.com"/>
+   	<constructor-arg value="dxjAYDa5jdUkWD9BmX2gmIIp"/>
+   </bean>
+   <bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+   	<property name="scope" value="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"/>
+   	<property name="redirectUri" value="http://www.codepeople.com/login/googlelogin.do"/>
+   </bean>
+   
+	 <bean id="naverLoginBO" class="com.jhta.cope.util.NaverLoginBO"/>
+	   
+   
+   <!-- 파일 다운로드 관련 -->
+   	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	
+	<bean id="iconPath" class="java.lang.String">
+		<constructor-arg value="C:\project\codepeople\src\main\webapp\resources\img\user\icon"></constructor-arg>
+	</bean>
+</beans>

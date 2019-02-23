@@ -1,0 +1,463 @@
+body {
+	min-height: 100%;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #afeeee;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ff7373;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: pink;
+}
+
+
+.sg-btn-primary {
+	background-color: #ff7373;
+	border: 2px solid #ff7373;
+	color: white;
+}
+
+.sg-btn-secondary {
+	background-color: #afeeee;
+	border: 2px solid #afeeee;
+	color: white;
+}
+
+#media-player {
+    object-fit: contain;
+}
+
+.glyphicon {
+    margin-top: 25px;
+    font-size: 18px;
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
+}    
+
+#speedSetting {
+    margin: 0px;
+    padding : 8px;
+    min-width: 80px;
+}
+
+#lesson-menu {
+    float: left;
+    margin-left:30px;
+}
+        
+.footer-right-buttons {
+    float: right;
+    margin-right:20px;
+    
+}
+
+.footer-left-buttons {
+    margin-left:20px;
+    
+}
+.speed-option a {
+    color: #ff7373;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    padding-top:5px;
+    padding-bottom: 5px;
+}
+    
+.speed-dropup {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    left: 4.6%;
+    top: 70%;
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    min-width: 100px;
+}    
+
+    
+#media-video {
+    position: absolute;    
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+	z-index: -1;
+	background-color: black;
+}
+    
+.video-header {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 10%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%);
+  cursor: pointer;
+
+}
+
+.video-footer {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 20%;
+  top: 90%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4) 0%,rgba(0,0,0,0) 100%);
+  cursor: pointer;
+
+}
+    
+video::-webkit-media-controls {
+  display:none !important;
+}
+    
+    
+#backBar {
+	position:relative;
+	width:0px;
+	height:10px;
+	background-color: lightgray;
+    text-align: left;
+    margin-left: 10px;
+    opacity: 0.6;
+    
+}
+
+#progressBar {
+	position:relative;
+	width:0px;
+	height:10px;
+	background:#ff7373;
+    margin: 0px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.1s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.1s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#video-lesson-menu {
+	margin-left: 20px;
+	margin-top: 10px;
+	padding-top: 0px;
+	
+}
+
+#video-smart-copy {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-left: 32%;
+	font-weight: 600;
+	opacity: 0.6;
+}
+
+#video-link-exposure {
+	opacity: 0.6;
+}
+
+#video-link-exposure:hover {
+	opacity: 1;
+}
+
+#video-smart-copy:hover {
+	opacity: 1;
+}
+
+#potal-dashboard {
+	float: right;
+	margin-right: 30px;
+	font-size: 15px;
+	font-weight: 800;
+	color: white;
+}
+
+#video-myNote {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 30px;
+	padding-left: 30px;
+	color: black;
+	margin-left: 20px;
+	font-weight: 600;
+	opacity: 0.6;
+}
+
+#video-myNote:hover {
+	opacity: 1;
+}
+
+.video-header-left {
+	margin-top: 10px;
+}
+
+.video-header-right {
+	margin-top: 20px;
+}
+
+.closebtn {
+	cursor: pointer;
+	color: white;
+}
+
+/* video left-nav section box*/
+
+.video-section-whole-box {
+    background-color: #afeeee;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.video-section-top-box {
+	margin-left: 23px;
+    margin-bottom: 10px;
+}
+
+.video-section-no-box {
+    margin-left: 4%;
+
+}
+
+.video-section-complete-box {
+    background-color: #ff7373;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 800;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	color: white;
+}
+
+#video-section-name {
+    margin-left: 5%;
+	margin-top: 10px;
+	font-weight: 800;
+}
+
+.video-section-lessonbox {
+    background-color: #afeeee;
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+
+.video-section-lesson-list {
+    display: none;
+    margin-bottom: 10px;
+}
+
+.video-lesson-per-one {
+    padding-bottom: 50px;
+	background-color: white;
+}
+
+#video-complete-symbol {
+	font-size: 25px;
+    color: green;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+#video-lesson-name {
+    font-weight: 800;
+}
+
+.video-identify-wrapper {
+	padding-top: 17px;
+	padding-left: 0px;
+	font-size: 20px;
+}
+
+.video-top-section-wrapper {
+	font-weight: 800;
+}
+
+.exit-pip {
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: 800;
+}
+
+.footer-center-buttons {
+	align-items: center;
+	font-size: 16px;
+	font-weight: 500;
+	color: white;
+	margin-left: 28%;
+}
+
+#video-link-bookmark {
+	margin-left: 20px;
+	opacity: 0.5;
+}
+
+#video-link-questionBoard {
+	opacity: 0.5;
+}
+
+#video-link-bookmark:hover {
+	opacity: 1;
+}
+
+#video-link-questionBoard:hover {
+	opacity: 1;
+}
+
+.video-note-page {
+	display: none;
+	z-index: -1;
+}
+
+.video-in-note {
+	background-color: white;
+	margin-right: 100px;
+}
+
+
+.video-each-note {
+    border: 1px solid #ff7373;
+	margin-bottom: 20px;
+}
+
+.video-section-info-wrapper {
+	color: white;
+	font-size: 10px;
+}
+
+.glyphicon glyphicon-pencil {
+	color: white;
+}
+
+.video-each-section-date {
+	margin-right: 40px;
+	font-size: 10px;
+	float: right;
+	color: white;
+}
+
+.video-each-note-title {
+	margin-top:20px;
+	margin-bottom: 30px;
+	margin-left: 30px;
+	color: white;
+}
+
+.video-in-notelist {
+	height: 100%;
+    position: fixed;
+    overflow-x: hidden;
+	background-color: black;
+
+}
+
+.video-note-section-wrapper {
+	margin-top: 30px;
+	font-size: 30px;
+	font-weight: 800;
+}
+
+.video-in-notelist-label {
+	color: white;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	font-weight: 800
+}
+
+.video-note-hidden-content {
+	display: none;
+}
+
+
+video {
+  background: url(/resources/img/paid/video/loading.gif) center center no-repeat;
+  background-size: 30px 30px;
+  background-position: center;
+  
+}
+
+.video-controller {
+	position: fixed;
+}
+
+.mark-area {
+	position: fixed;
+	top:87%;
+}
+
+.bookmark-input-area {
+	position: fixed;
+	top:84%;
+}
+
+#new-note-generator {
+	background-color: transparent !important; 
+}
+
+.caption {
+	position: fixed;
+	top:50%;
+}
+
+.mark-image {
+	display: none;
+}

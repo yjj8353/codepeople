@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+.add-note-wrapper {
+    text-align: center;
+}
+
+#btn-add-note {
+    padding-left: 520px;
+    padding-right: 520px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.paid-each-note {
+    border: 1px solid #ff7373;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
+#paid-each-note-modify {
+	color: orange;
+}
+
+#paid-each-note-delete {
+	color: red;
+}
+
+.paid-note-toparea {
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.paid-note-content-wrapper {
+	margin-top: 20px;
+	margin-left: 20px;
+	display: none;
+}
+
+.paid-each-section-date {
+	margin-top: 20px;
+	margin-right: 40px;
+	font-size: 10px;
+	float: right;
+}
+#paid-each-note-title {
+	margin-top:20px;
+	margin-bottom: 30px;
+}
+
+.paid-section-info-wrapper {
+	color: gray;
+	font-size: 10px;
+}
+
+.modify-wrapper {
+    margin-bottom: 30px;
+}
+
+#title-box {
+	border: 6px solid #ff7373;
+	background-color: #91A8d0;
+	height: 50px;
+	width: 1170px;
+	color: black;
+	font-size: 20px;
+	text-align: left;
+}
+
+.create-note-cancel {
+	width: 100px;
+}
+
+.create-note-save {
+	width: 100px;
+}
+
+#title-box::placeholder {
+  text-align: left;
+  color: white;
+  opacity: 0.7; /* Firefox */
+}

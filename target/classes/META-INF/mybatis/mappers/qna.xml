@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhta.cope.dao.QnaDao">
+
+	<!-- 하위 객체들이 전부 들어있는 QNA -->
+	<resultMap type="Qna" id="getQnaByNoResultMap">
+		<id column="QNA_NO" property="no" />
+		<result column="rn" property="rn" />
+		<result column="QNA_TITLE" property="title" />
+		<result column="QNA_CONTENTS" property="contents" />
+		<result column="QNA_CREATE_DATE" property="createDate" />
+		<result column="QNA_VIEWS" property="views" />
+		<result column="QNA_AVAILABLE" property="available" />
+		<association column="QNA_WRITER" property="writer"
+			javaType="User" select="com.jhta.cope.dao.UserDao.getUserByNo" />
+		<collection property="answers" column="QNA_NO"
+			javaType="java.util.ArrayList" ofType="QnaAnswer"
+			select="getAnswerByNo" />
+	</resultMap>
+
+	<!-- 하위 객체가 전부 들어있는 Answer -->
+	<resultMap type="QnaAnswer" id="getAnswerByNoResultMap">
+		<id column="ANSWER_NO" property="no" />
+		<result column="ANSWER_CONTENTS" property="contents" />
+		<result column="ANSWER_CREATE_DATE" property="createDate" />
+		<result column="QNA_NO" property="qnaNo" />
+		<association column="ANSWER_WRITER" property="writer"
+			javaType="User" select="com.jhta.cope.dao.UserDao.getUserByNo" />
+		<collection property="comments" column="ANSWER_NO"
+			javaType="java.util.ArrayList" ofType="QnaComment"
+			select="getQnaCommentByNo" />
+	</resultMap>
+
+	<resultMap type="QnaComment" id="getQnaCommentByNoResultMap">
+		<id column="COMMENT_NO" property="no" />
+		<result column="ANSWER_NO" property="answerNo" />
+		<result column="CO_CONTENTS" property="contents" />
+		<result column="CO_CREATE_DATE" property="createDate" />
+		<association column="CO_WRITER" property="writer"
+			javaType="User" select="com.jhta.cope.dao.UserDao.getUserByNo" />
+	</resultMap>
+
+	<select id="getAnswerByNo" parameterType="int" resultMap="getAnswerByNoResultMap">
+		select
+			ANSWER_NO,
+			ANSWER_WRITER,
+			ANSWER_CONTENTS,
+			ANSWER_CREATE_DATE,
+			QNA_NO
+		from
+			QNA_ANSWER
+		where
+			QNA_NO = #{value}
+		order by 
+			ANSWER_CREATE_DATE
+	</select>
+
+	<select id="getAnswerByUserNo" parameterType="int" resultMap="getAnswerByNoResultMap">
+		select
+			A.ANSWER_NO,
+			A.ANSWER_WRITER,
+			A.ANSWER_CONTENTS,
+			A.ANSWER_CREATE_DATE,
+			A.QNA_NO
+		from
+			QNA_ANSWER A,QNA B
+		where
+			A.QNA_NO = B.QNA_NO
+		and 
+			B.QNA_AVAILABLE = 1
+		and
+			ANSWER_WRITER = #{value}
+		order by 
+			ANSWER_CREATE_DATE desc
+	</select>
+
+	<select id="getAllAnswers" parameterType="Criteria" resultMap="getAnswerByNoResultMap">
+		select
+			A.rn,
+			A.ANSWER_NO,
+			A.ANSWER_WRITER,
+		    <![CDATA[REGEXP_REPLACE(A.ANSWER_CONTENTS,'<[^>]*>','') as ANSWER_CONTENTS]]>,
+			A.ANSWER_CREATE_DATE,
+			A.QNA_NO
+		from (
+			select rownum as rn,
+			B.ANSWER_NO,
+			B.ANSWER_WRITER,
+			B.ANSWER_CONTENTS,
+			B.ANSWER_CREATE_DATE,
+			B.QNA_NO
+		from (
+			select
+			ANSWER_NO,
+			ANSWER_WRITER,
+			ANSWER_CONTENTS,
+			ANSWER_CREATE_DATE,
+			QNA_NO
+			from
+			QNA_ANSWER
+			order by
+			ANSWER_CREATE_DATE
+		) B
+		where
+			rownum &lt;= #{endIndex }) A
+		where
+			A.rn &gt;= #{beginIndex }
+
+	</select>
+
+	<select id="countAllAnswers" resultType="int">
+		select
+		count(*)
+		from
+		QNA_ANSWER
+	</select>
+
+	<select id="getQnaByNo" parameterType="int" resultMap="getQnaByNoResultMap">
+		select
+			QNA_NO,
+			QNA_TITLE,
+			QNA_WRITER,
+			QNA_CONTENTS,
+			QNA_VIEWS,
+			QNA_AVAILABLE,
+			QNA_CREATE_DATE
+		from
+			QNA
+		where
+			QNA_NO = #{value}
+	</select>
+
+	<select id="getQnaByUserNo" parameterType="int"
+		resultMap="getQnaByNoResultMap">
+		select
+			QNA_NO,
+			QNA_TITLE,
+			QNA_WRITER,
+			QNA_CONTENTS,
+			QNA_VIEWS,
+			QNA_CREATE_DATE
+		from
+			QNA
+		where
+			QNA_AVAILABLE = 1
+		and
+			QNA_WRITER = #{value}
+		order by 
+			QNA_CREATE_DATE desc
+	</select>
+
+	<select id="getAllQnas" parameterType="Criteria"
+		resultMap="getQnaByNoResultMap">
+		select
+			A.rn,
+			A.QNA_NO,
+			A.QNA_TITLE,
+			A.QNA_WRITER,
+			A.QNA_CONTENTS,
+			A.QNA_CREATE_DATE,
+			A.QNA_VIEWS
+		from (
+		select rownum as rn,
+			B.QNA_NO,
+			B.QNA_TITLE,
+			B.QNA_WRITER,
+			B.QNA_CONTENTS,
+			B.QNA_CREATE_DATE,
+			B.QNA_VIEWS
+		from (
+			select
+			QNA_NO,
+			QNA_TITLE,
+			QNA_WRITER,
+			QNA_CONTENTS,
+			QNA_CREATE_DATE,
+			QNA_VIEWS
+		from
+			QNA
+		order by 
+			QNA_CREATE_DATE
+		) B
+		where rownum &lt;= #{endIndex}) A
+		where A.rn &gt;= #{beginIndex}
+	</select>
+
+	<select id="countAllQnas" resultType="int">
+		select
+			count(*)
+		from
+			QNA
+	</select>
+
+	<select id="getAllQnasByCriteria" parameterType="Criteria" resultMap="getQnaByNoResultMap">
+		select
+			*
+		from (
+		select
+		<choose>
+			<when test="sort == 'rep'">
+				ROW_NUMBER() over (order by B.rep desc) rn,
+			</when>
+			<when test="sort == 'view'">
+				ROW_NUMBER() over (order by A.qna_views desc) rn,
+			</when>
+			<otherwise>
+				ROW_NUMBER() over (order by A.qna_create_date desc) rn,
+			</otherwise>
+		</choose>
+			A.QNA_NO,
+			A.QNA_TITLE,
+			A.QNA_WRITER,
+			A.QNA_CONTENTS,
+			A.QNA_CREATE_DATE,
+			A.QNA_VIEWS
+			from QNA A
+		<if test="sort='rep'">,
+			(select count(D.answer_contents) as rep,C.QNA_NO
+			from
+			qna C, qna_answer D where C.qna_no = D.qna_no(+) group by C.qna_no) B
+		</if>
+		<where>
+			A.QNA_AVAILABLE = 1
+			<if test="searchType == 'all' and keyword != null">
+				AND (LOWER(A.QNA_TITLE) like '%' || #{keyword} || '%' or
+				LOWER(A.QNA_WRITER) like '%' || #{keyword} || '%' or
+				LOWER(A.QNA_CONTENTS) like '%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'title' and keyword != null">
+				AND LOWER(A.QNA_TITLE) like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'writer' and keyword != null">
+				AND LOWER(A.QNA_WRITER) like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'contents' and keyword != null">
+				AND LOWER(A.QNA_CONTENTS) like '%' || #{keyword} || '%'
+			</if>
+			<if test="sort='rep'">AND A.QNA_NO = B.QNA_NO</if>
+		</where>
+		)
+		where rn &gt;= #{beginIndex}
+		and rn &lt;= #{endIndex}
+	</select>
+
+	<select id="getQnaCommentByNo" parameterType="int"
+		resultMap="getQnaCommentByNoResultMap">
+		select
+			COMMENT_NO,
+			ANSWER_NO,
+			CO_WRITER,
+			CO_CONTENTS,
+			CO_CREATE_DATE
+		from qna_comment
+			where answer_no = #{value}
+		order by CO_CREATE_DATE
+	</select>
+
+	<select id="getCommentByUserNo" parameterType="int"
+		resultMap="getQnaCommentByNoResultMap">
+		select
+			COMMENT_NO,
+			ANSWER_NO,
+			CO_WRITER,
+			CO_CONTENTS,
+			CO_CREATE_DATE
+		from qna_comment
+		where co_writer = #{value}
+		order by CO_CREATE_DATE
+	</select>
+
+	<select id="getQnaCount" resultType="int" parameterType="map">
+		select
+		count(*)
+		from
+		QNA
+		<where>
+			QNA_AVAILABLE = 1
+			<if test="searchType == 'all' and keyword != null">
+				AND (LOWER(QNA_TITLE) like '%' || #{keyword} || '%' or
+				LOWER(QNA_WRITER) like '%' || #{keyword} || '%' or
+				LOWER(QNA_CONTENTS) like '%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'title' and keyword != null">
+				AND LOWER(QNA_TITLE) like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'writer' and keyword != null">
+				AND LOWER(QNA_WRITER) like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'contents' and keyword != null">
+				AND LOWER(QNA_CONTENTS) like '%' || #{keyword} || '%'
+			</if>
+		</where>
+
+	</select>
+
+	<select id="getQnaAnswersCount" resultType="int">
+		select
+		count(*)
+		from
+		QNA_ANSWER
+	</select>
+
+	<select id="getAnswerCount" parameterType="int" resultType="int">
+		select
+		count(*)
+		from
+		QNA_ANSWER
+		where QNA_NO = #{value}
+	</select>
+
+	<insert id="insertQna" parameterType="Qna">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select
+			SEQ_qna_qna_no.nextval from dual
+		</selectKey>
+		insert into QNA(
+			QNA_NO,
+			QNA_TITLE,
+			QNA_WRITER,
+			QNA_CONTENTS,
+			QNA_CREATE_DATE,
+			QNA_VIEWS)
+		values (#{no},#{title},#{writer.no},#{contents},sysdate,0)
+	</insert>
+
+	<insert id="insertAnswer" parameterType="QnaAnswer">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select
+				seq_qna_answer_answer_no.nextval from dual
+		</selectKey>
+		insert into
+			QNA_ANSWER(
+			ANSWER_NO,
+			ANSWER_WRITER,
+			ANSWER_CONTENTS,
+			ANSWER_CREATE_DATE,
+			QNA_NO)
+		values(#{no},#{writer.no},#{contents},sysdate,#{qnaNo})
+	</insert>
+
+	<insert id="insertAnswerComment" parameterType="QnaComment">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select
+			seq_qna_comment_comment_no.nextval from dual
+		</selectKey>
+		insert into
+			QNA_COMMENT(
+			COMMENT_NO,
+			ANSWER_NO,
+			CO_WRITER,
+			CO_CONTENTS,
+			CO_CREATE_DATE)
+		values(#{no},#{answerNo},#{writer.no},#{contents},sysdate)
+	</insert>
+
+	<update id="updateQna" parameterType="Qna">
+		update QNA
+		set
+			QNA_TITLE = #{title},
+			QNA_CONTENTS = #{contents},
+			QNA_VIEWS = #{views},
+			QNA_AVAILABLE = #{available}
+		where
+		QNA_NO = #{no}
+	</update>
+
+	<select id="getNoticeByNoticeNo" parameterType="int" resultType="Notice">
+		select 
+			rn,
+			NOTICE_NO as no,
+			NOTICE_TITLE as title,
+			NOTICE_CONTENTS as contents,
+			NOTICE_CREATE_DATE as createDate,
+			NOTICE_AVAILABLE as available
+		from
+		(select
+            ROW_NUMBER() over(order by NOTICE_CREATE_DATE desc) rn,
+			NOTICE_NO,
+			NOTICE_TITLE,
+			NOTICE_CONTENTS,
+			NOTICE_CREATE_DATE,
+			NOTICE_AVAILABLE
+		from NOTICE) A
+    where A.rn = #{value}
+	</select>
+	
+	<select id="getNoticeByCriteria" parameterType="Criteria" resultType="Notice">
+		select *
+		from(
+		select
+			ROW_NUMBER() over (order by NOTICE_CREATE_DATE desc) rn,
+			NOTICE_NO as no,
+			NOTICE_TITLE as title,
+			NOTICE_CONTENTS as contents,
+			NOTICE_CREATE_DATE as createDate,
+			NOTICE_AVAILABLE as available
+		from NOTICE
+		<where>
+			NOTICE_AVAILABLE = 1
+			<if test="keyword != null">
+				and (LOWER(NOTICE_TITLE) like '%' || #{keyword} || '%' or
+				LOWER(NOTICE_CONTENTS) like '%' || #{keyword} || '%')
+			</if>
+		</where>
+			) A
+			where rn &gt;= #{beginIndex}
+			and rn &lt;= #{endIndex}
+	</select>
+	
+	<select id="getNoticeCount" resultType="int" parameterType="string">
+		select
+			count(*)
+		from
+			NOTICE
+		<where>
+			NOTICE_AVAILABLE = 1
+			<if test="value != null and value != ''">
+				and (LOWER(NOTICE_TITLE) like '%' || #{keyword} || '%' or
+				LOWER(NOTICE_CONTENTS) like '%' || #{keyword} || '%')
+			</if>
+		</where>
+	</select>
+	
+</mapper>

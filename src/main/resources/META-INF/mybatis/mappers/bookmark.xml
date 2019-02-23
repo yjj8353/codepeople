@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jhta.cope.dao.BookmarkDao">
+	
+	<insert id="insertBookmark" parameterType="Bookmark">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select bookmark_no_seq.nextval from dual
+		</selectKey>
+		insert into BOOKMARK(
+			BOOKMARK_NO,
+			HISTORY_NO,
+			BOOKMARK_LENGTH,
+			BOOKMARK_CONTENT,
+			CREATE_DATE)
+		values (#{no}, #{history.no}, #{length}, #{content}, sysdate)
+	</insert>
+	
+		<select id="getBookmarkByHistoryNo" parameterType="int" resultType="Bookmark">
+		select
+			BOOKMARK_NO as no,
+			HISTORY_NO as "history.no",
+			BookMARK_LENGTH as "length",
+			BOOKMARK_CONTENT as "content",
+			CREATE_DATE as "createDate"
+		from
+			BOOKMARK
+		where
+			HISTORY_NO = #{value}
+		ORDER BY
+			BookMARK_LENGTH asc
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhta.cope.dao.UserDao">
+	
+	<insert id="insertUser" parameterType="User">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select user_no_seq.nextval from dual
+		</selectKey>
+		insert into USERS(
+			USER_NO,
+			USER_ID,
+			USER_PASSWORD,
+			USER_EMAIL,
+			USER_NAME,
+			USER_CREATE_DATE)
+		values (#{no},#{id},#{password},#{email},#{name},sysdate)
+	</insert>
+	<insert id="insertAvatar" parameterType="Avatar">
+		insert into USER_AVATAR(
+			USER_NO,
+			AVATAR_IMAGE,
+			AVATAR_BG,
+			AVATAR_NICK,
+			AVATAR_EXP
+		)
+		values(#{userNo},#{image},#{bgImg},#{nick},0)
+	</insert>
+	<insert id="insertUserAuth" parameterType="map">
+		insert into USER_AUTH(
+			AUTH_EMAIL,
+			AUTH_KEY)
+		values(#{email},#{key})
+	</insert>
+
+	<update id="userAuth" parameterType="map">
+		update 
+			USERS 
+		set 
+			USER_AUTH_STATUS = 1
+		where 
+			(select count(*)
+			from user_auth
+			where AUTH_EMAIL = #{email}
+			and AUTH_KEY = #{key}) > 0
+		and 
+			user_email = #{email}
+	</update>
+	
+	<resultMap type="User" id="UserDetailResultMap">
+		<id column="USER_NO" property="no"/>
+		<result column="USER_ID" property="id"/>
+		<result column="USER_PASSWORD" property="password"/>
+		<result column="USER_EMAIL"  property="email"/>
+		<result column="USER_NAME" property="name"/>
+		<result column="USER_CREATE_DATE" property="createDate"/>
+		<result column="USER_AUTH_STATUS" property="authStatus"/>
+		<result column="USER_ON" property="userOn"/>
+		<association column="USER_NO" property="avatar" javaType="Avatar" select="getAvatar"/>
+	</resultMap>
+	
+	<select id="getUserByNo" parameterType="int" resultMap="UserDetailResultMap">
+		select
+			USER_NO,
+			USER_ID,
+			USER_PASSWORD,
+			USER_EMAIL,
+			USER_NAME,
+			USER_CREATE_DATE,
+			USER_AUTH_STATUS,
+			USER_ON
+		from
+			USERS
+		where
+			user_no = #{value}
+	</select>
+	
+	<select id="getUserById" parameterType="string" resultMap="UserDetailResultMap">
+		select
+			USER_NO,
+			USER_ID,
+			USER_PASSWORD,
+			USER_EMAIL,
+			USER_NAME,
+			USER_CREATE_DATE,
+			USER_AUTH_STATUS,
+			USER_ON
+		from
+			USERS
+		where
+			user_id = #{value}
+	</select>
+	
+	<select id="getAvatar" parameterType="int" resultType="Avatar">
+		select
+			USER_NO as userNo,
+			AVATAR_IMAGE as image,
+			AVATAR_BG as bgImg,
+			AVATAR_NICK as nick,
+			AVATAR_EXP as exp
+		from 
+			USER_AVATAR
+		where USER_NO = #{value}
+	</select>
+	
+	<select id="getUserByEmail" parameterType="string"
+		resultType="User">
+		select
+			USER_NO as no,
+			USER_ID as id,
+			USER_PASSWORD as password,
+			USER_EMAIL as email,
+			USER_NAME as name,
+			USER_ON as userOn,
+			USER_CREATE_DATE as createDate,
+			USER_AUTH_STATUS as authStatus
+		from 
+			USERS
+		where
+			USER_EMAIL = #{value}
+	</select>
+	
+	<select id="CheckUserBadgeByUserNoAndBadgeNo" parameterType="map" resultType="map">
+		select *
+		from USER_BADGE
+		where USER_NO = #{userNo}
+		and BADGE_NO = #{badgeNo}
+	</select>
+	
+	<select id="getBadgeByNo" resultType="Badge" parameterType="int">
+		select
+			BADGE_NO as no,
+			BADGE_NAME as name,
+			BADGE_ICON as icon,
+			BADGE_EXP as exp,
+			BADGE_CONDITION as condition
+		from
+			BADGE
+		where
+			BADGE_NO = #{value}
+	</select>
+	
+	<select id="haveBadge" parameterType="int" resultType="Badge">
+		select 
+			A.BADGE_NO as no,
+			A.BADGE_NAME as name,
+			A.BADGE_ICON as icon,
+			A.BADGE_EXP as exp,
+			A.BADGE_CONDITION as condition
+		from 
+			BADGE A, USER_BADGE B
+		where 
+			B.USER_NO = #{value}
+		and 
+			A.BADGE_NO = B.BADGE_NO
+		order by A.BADGE_EXP desc
+	</select>
+	
+	<select id="notHaveBadge" parameterType="int" resultType="Badge">
+		select
+		BADGE_NO as no,
+		BADGE_NAME as name,
+		BADGE_ICON as icon,
+		BADGE_EXP as exp,
+		BADGE_CONDITION as condition
+        from 
+			BADGE
+		where (BADGE_NO) 
+				not in
+					   (select A.BADGE_NO
+                       from USER_BADGE A, badge B
+                       where USER_NO = #{value}
+                       and A.badge_no = B.badge_no)
+       order by BADGE_NO
+	</select>
+	
+	<resultMap type="Follow" id="getFollowResultMap">
+		<result property="createDate" column="FOLLOW_CREATE_DATE"/>
+		<association property="follower" column="FOLLOWER" javaType="User" select="getUserById"/>
+		<association property="following" column="FOLLOWING" javaType="User" select="getUserById"/>
+	</resultMap>
+	
+	<select id="getMyFollowingById" parameterType="string" resultMap="getFollowResultMap">
+		select 
+			FOLLOWER,
+			FOLLOWING,
+			FOLLOW_CREATE_DATE
+		from 
+			USER_FOLLOW
+		where
+			FOLLOWING = #{value}
+	</select>
+	
+	<!-- 내 전체 친구들 -->
+	<select id="getFriends" parameterType="string" resultMap="getFollowResultMap">
+		select DISTINCT 
+			a.FOLLOWER,
+			a.FOLLOWING,
+			a.FOLLOW_CREATE_DATE,
+            c.USER_ON
+		from
+			user_follow A,
+			user_follow B,
+            users C
+		where a.follower = b.following
+        and A.follower = c.user_id
+		and a.following = #{value}
+        and b.follower = #{value}
+        order by c.user_on desc
+	</select>
+	
+	<!-- 서로 팔로우한 친구들 -->
+	<select id="getFriendRequest" parameterType="string" resultMap="getFollowResultMap">
+		select 
+	        M.FOLLOWER,
+			M.FOLLOWING,
+			M.FOLLOW_CREATE_DATE
+		from
+			user_follow M,
+			user_follow U
+        
+        where M.FOLLOWER = #{value}
+        and U.FOLLOWING = #{value}
+        and M.FOLLOWING != u.follower
+	</select>
+	
+	<!-- 팔로워 체크 -->
+	<select id="myFollowChecking" parameterType="Follow" resultMap="getFollowResultMap">
+		select 
+			FOLLOWER,
+			FOLLOWING,
+			FOLLOW_CREATE_DATE
+		from 
+			USER_FOLLOW
+		where
+			FOLLOWING = #{following.id}
+		and FOLLOWER = #{follower.id}
+	</select>	
+	
+	<!-- 친구요청을 보낸 사람들 -->
+	<select id="getFollowMe" parameterType="string" resultMap="getFollowResultMap">
+		select 
+			FOLLOWER,
+			FOLLOWING,
+			FOLLOW_CREATE_DATE
+	    from 
+			USER_FOLLOW
+		where 
+		FOLLOWER = #{value}
+		and (FOLLOWING) 
+			not in
+			(select 
+		  	 	 A.FOLLOWING
+			from 
+				USER_FOLLOW A, USER_FOLLOW B
+			where A.FOLLOWER = #{value}
+			and A.FOLLOWER = B.FOLLOWING
+			and B.FOLLOWER = A.FOLLOWING)
+	</select>
+	
+	<delete id="deleteFollow" parameterType="Follow">
+		delete from USER_FOLLOW
+		where FOLLOWER = #{follower.id}
+		and FOLLOWING = #{following.id}
+	</delete>
+	
+	
+	<insert id="insertUserBadge" parameterType="map">
+		insert into USER_BADGE(
+				USER_NO,
+				BADGE_NO,
+				CREATE_DATE)
+		values(#{userNo},#{badgeNo},sysdate)
+	</insert>
+	
+	<insert id="insertFollow" parameterType="Follow">
+		insert into USER_FOLLOW
+			(FOLLOWER,
+			FOLLOWING,
+			FOLLOW_CREATE_DATE)
+		values(#{follower.id},#{following.id},sysdate)
+	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		update
+			USERS
+		set 
+		    USER_PASSWORD = #{password},
+		    USER_NAME = #{name},
+		    USER_ON = #{userOn},
+		    USER_AUTH_STATUS = #{authStatus}
+		where 
+			USER_NO = #{no}
+	</update>
+	
+	<update id="updateAvatar" parameterType="Avatar">
+		update 
+			USER_AVATAR
+		set 
+		    AVATAR_IMAGE = #{image},
+		    AVATAR_BG   = #{bgImg},
+		    AVATAR_NICK = #{nick},
+		    AVATAR_EXP = #{exp}
+		where 
+			USER_NO = #{userNo}
+	</update>
+	
+	
+	<!-- Paid Lecture 관련 ㅠㅜㅠ -->
+	<select id="getPaidLectureByRank" resultMap="com.jhta.cope.dao.PaidLectureDao.paidLectureResultMap" parameterType="map">
+		select *
+		from(
+		select 
+		<choose>
+			<when test="keyword == 'new'">
+			ROW_NUMBER() over(order by LECTURE_CREATE_DATE desc) rn,
+			</when>
+			<when test="keyword == 'like'">
+			ROW_NUMBER() over(order by LECTURE_LIKES desc) rn,
+			</when>
+		</choose>
+			PAID_LECTURE_NO,
+			INSTRUCTOR_NO,
+			LECTURE_LANG,
+			LECTURE_TITLE,
+			LECTURE_LEVEL,
+			LECTURE_SPECIALIZED,
+			LECTURE_SUMMARY,
+			LECTURE_DESCRIPTION,
+			LECTURE_PRICE,
+			LECTURE_THUMNAIL_PATH,
+			LECTURE_CREATE_DATE,
+			LECTURE_LIKES,
+			LECTURE_VIEW_COUNT,
+			EXPOSURE_STATUS,
+			APPROVE_STATUS
+		from paid_lecture
+		where EXPOSURE_STATUS = 'Y'
+		and APPROVE_STATUS = 'Y'
+		)
+		where rn &lt;= 8
+	</select>
+	
+		<!-- byLecture만 담김 -->
+	<resultMap type="LectureHistory" id="historyBuyLectureResultMap">
+		<id property="no" column="HISTORY_NO"/>
+		<result property="pass" column="PASS"/>
+		<result property="historyLength" column="HISTORY_LENGTH"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+		<association property="buyLecture" column="BUY_LECTURE_NO" javaType="BuyLecture" select="com.jhta.cope.dao.BuyLectureDao.getBuyLectureByNoResultMap"></association>
+	</resultMap>
+	
+	<!-- 내가 본 전체 동영상 -->
+	
+	<select id="getHistoryCountByUserNo" resultType="int" parameterType="int">
+	select count(*)
+			from BUY_LECTURE A,LECTURE_HISTORY B
+			where 
+			    a.buy_lecture_no = b.buy_lecture_no
+			and
+			    a.user_no = #{value}
+            and b.pass = 'Y'
+	</select>
+	
+	<select id="completionCheckMyLecture" parameterType="map" resultType="map">
+		select detail_no
+		from paid_lecture_detail
+		where paid_lecture_no = #{lectureNo}
+		minus
+		select a.detail_no
+		from lecture_history A, buy_lecture B, paid_lecture_detail C 
+		where A.buy_lecture_no = B.buy_lecture_no
+		and b.user_no = #{userNo}
+		and A.detail_no = C.detail_no
+		and c.paid_lecture_no = #{lectureNo}
+		and A.pass = 'Y';
+	</select>
+	
+	<!-- 결제 및 강의 정보 -->
+	<select id="getLectureHistoryByCriteria" parameterType="Criteria" resultMap="historyBuyLectureResultMap">
+		select DISTINCT
+		D.BUY_LECTURE_NO,
+		D.PAID_LECTURE_NO,
+		D.USER_NO,
+		D.CREATE_DATE
+		from(select 
+			<choose>
+				<when test="sort == 'end'">
+					ROW_NUMBER() over (order by B.update_date desc nulls last) rn,
+				</when>
+				<when test="sort == 'lean'">
+					ROW_NUMBER() over (order by B.update_date desc nulls last) rn,
+				</when>
+				<otherwise>
+					ROW_NUMBER() over (order by B.update_date desc nulls last) rn,
+				</otherwise>
+			</choose>
+			A.BUY_LECTURE_NO,
+			A.PAID_LECTURE_NO,
+			A.USER_NO,
+			A.CREATE_DATE,
+			B.update_date
+			from BUY_LECTURE A,LECTURE_HISTORY B, PAID_LECTURE C
+			where 
+			    a.buy_lecture_no = b.buy_lecture_no(+)
+			and
+			    A.PAID_LECTURE_NO = C.PAID_LECTURE_NO
+			and
+			    a.user_no = #{userNo}
+			<if test="keyword != null">
+			and
+			    REPLACE(LOWER(C.LECTURE_TITLE), ' ','') like '%'||#{keyword}||'%'
+			</if>
+			<if test="sort == 'lean'">
+			and
+			    B.PASS = 'N'
+			</if>
+			<if test="sort == 'end'">
+			and
+			    B.PASS = 'Y'
+			</if>
+			
+			)D
+			
+		where rn &gt;= #{beginIndex}
+		and rn &lt;= #{endIndex}
+	</select>
+	
+	
+	<select id="getMyComplateLectureByUserNo" parameterType="int" resultMap="com.jhta.cope.dao.PaidLectureDao.paidLectureResultMap">
+		select 
+		B.PAID_LECTURE_NO,
+		B.INSTRUCTOR_NO,
+		B.LECTURE_LANG,
+		B.LECTURE_TITLE,
+		B.LECTURE_LEVEL,
+		B.LECTURE_SPECIALIZED,
+		B.LECTURE_SUMMARY,
+		B.LECTURE_DESCRIPTION,
+		B.LECTURE_PRICE,
+		B.LECTURE_THUMNAIL_PATH,
+		B.LECTURE_CREATE_DATE,
+		B.LECTURE_LIKES,
+		B.LECTURE_VIEW_COUNT,
+		B.EXPOSURE_STATUS,
+		B.APPROVE_STATUS
+		from
+			COMPLATE_LECTURE A, PAID_LECTURE B
+		where user_no = #{value}
+        and A.lecture_no = b.paid_lecture_no
+	</select>
+	
+	<select id="checkTheFirstLecture" parameterType="map" resultType="int">
+		select A.history_no
+		from 
+			lecture_history A,buy_lecture B 
+		where A.buy_lecture_no = B.buy_lecture_no 
+		and B.user_no = #{userNo} 
+		and A.detail_no = #{detailNo}
+	</select>
+</mapper>

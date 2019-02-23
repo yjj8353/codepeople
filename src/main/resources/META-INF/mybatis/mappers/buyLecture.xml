@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jhta.cope.dao.BuyLectureDao">
+
+	<insert id="insertBuyLecture" parameterType="BuyLecture">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select buy_no_seq.nextval from dual
+		</selectKey>
+		insert into BUY_LECTURE(
+			BUY_LECTURE_NO,
+			PAID_LECTURE_NO,
+			USER_NO,
+			CREATE_DATE)
+		values (#{no}, #{paidLecture.no}, #{user.no}, sysdate)
+	</insert>
+
+	<resultMap type="BuyLecture" id="getBuyLectureResultMap">
+		<id property="no" column="BUY_LECTURE_NO"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<association property="paidLecture" column="PAID_LECTURE_NO" javaType="PaidLecture" select="com.jhta.cope.dao.PaidLectureDao.getPaidLectureByLectureNo"/>
+		<association property="user" column="USER_NO" javaType="User" select="com.jhta.cope.dao.UserDao.getUserByNo"/>
+	</resultMap>
+	
+	<select id="getBuyLectureByUserNoResultMap" parameterType="int" resultMap="getBuyLectureResultMap">
+		select
+			BUY_LECTURE_NO,
+			PAID_LECTURE_NO,
+			USER_NO as,
+			CREATE_DATE
+		from
+			BUY_LECTURE
+		where
+			USER_NO = #{value}
+	</select>
+	
+		<select id="getBuyLectureByNoResultMap" parameterType="int" resultMap="getBuyLectureResultMap">
+		select
+			BUY_LECTURE_NO,
+			PAID_LECTURE_NO,
+			USER_NO as,
+			CREATE_DATE
+		from
+			BUY_LECTURE
+		where
+			BUY_LECTURE_NO = #{value}
+	</select>
+	
+	<select id="getBuyLectureByUserNo" parameterType="int" resultType="BuyLecture">
+		select
+			BUY_LECTURE_NO as no,
+			PAID_LECTURE_NO as "paidLecture.no",
+			USER_NO as "user.no",
+			CREATE_DATE as createDate
+		from
+			BUY_LECTURE
+		where
+			USER_NO = #{value}
+	</select>
+	
+	<select id="getBuyLectureByBuyLectureNo" parameterType="int" resultType="BuyLecture">
+		select
+			BUY_LECTURE_NO as no,
+			PAID_LECTURE_NO as "paidLecture.no",
+			USER_NO as "user.no",
+			CREATE_DATE as createDate
+		from
+			BUY_LECTURE
+		where
+			BUY_LECTURE_NO = #{value}
+	</select>
+	
+	
+		<select id="getCountBuyLectureByPaidLectureNo" parameterType="int" resultType="int">
+		select
+			count(*)
+		from
+			BUY_LECTURE
+		where
+			PAID_LECTURE_NO = #{value}
+	</select>
+	
+	
+	
+	
+</mapper>

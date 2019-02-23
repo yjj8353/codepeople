@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhta.cope.dao.ChatDao">
+	<insert id="insertChat" parameterType="Chat">
+	 insert into USER_CHAT(
+	 	SEND_USER,
+		RECV_USER,
+		CHAT_MSG,
+		CHAT_CREATE_DATE,
+		CHAT_VIEW_AVAILABLE
+	 	)
+	 values(#{sendUser.id},#{recvUser.id},#{contents},sysdate,'N')
+	</insert>
+	
+	<select id="getChatByRecvUserNo" parameterType="int" resultType="Chat">
+		select 
+			SEND_USER,
+			RECV_USER,
+			CHAT_MSG,
+			CHAT_CREATE_DATE,
+			CHAT_VIEW_AVAILABLE
+		from
+			USER_CHAT
+		where
+			RECV_USER = #{value}
+	</select>
+	
+	<resultMap type="Chat" id="getChatsResultMap">
+		<result property="contents" column="CHAT_MSG"/>
+		<result property="createDate" column="CHAT_CREATE_DATE"/>
+		<result property="viewAvailable" column="CHAT_VIEW_AVAILABLE"/>
+		<association property="sendUser" column="SEND_USER" select="com.jhta.cope.dao.UserDao.getUserById"></association>
+		<association property="recvUser" column="RECV_USER" select="com.jhta.cope.dao.UserDao.getUserById"></association>
+	</resultMap>
+	
+	<select id="getChats" parameterType="string" resultMap="getChatsResultMap">
+		select 
+			SEND_USER,
+			RECV_USER,
+			CHAT_MSG,
+			CHAT_CREATE_DATE,
+			CHAT_VIEW_AVAILABLE
+		from
+			USER_CHAT
+		where
+			(RECV_USER = #{recvUser.id}
+		and
+			SEND_USER = #{sendUser.id})
+		or
+			(RECV_USER = #{sendUser.id}
+		and
+			SEND_USER = #{recvUser.id})
+		order by CHAT_CREATE_DATE
+	</select>
+	
+	<!-- 읽지 않은 채팅 개수 -->
+	<select id="unReadChatCount" parameterType="string" resultType="int">
+		select count(*)
+		from USER_CHAT
+		where RECV_USER = #{value}
+		and CHAT_VIEW_AVAILABLE = 'N'
+	</select>
+	
+	<update id="updateChat" parameterType="Chat">
+		update USER_CHAT 
+		set
+			CHAT_VIEW_AVAILABLE = #{viewAvailable}
+		where 
+			RECV_USER = #{sendUser.id}
+		and 
+			SEND_USER = #{recvUser.id}
+	</update>
+</mapper>

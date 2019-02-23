@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jhta.cope.dao.UserLogDao">
+
+	<insert id="userLogWrite" parameterType="UserLog">
+		insert into USER_LOG (
+			USER_NO,
+			LOG_ACCOUNT,
+			LOG_IP,
+			LOG_CREATE_DATE
+		)
+		values (
+			#{no},
+			#{account},
+			#{ip},
+			sysdate
+		)
+	</insert>
+	
+	<select id="countTodayVisitors" resultType="int">
+		select
+			count(distinct(LOG_IP))
+		from
+			USER_LOG
+		where
+			to_char(LOG_CREATE_DATE, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD')
+	</select>
+	
+</mapper>

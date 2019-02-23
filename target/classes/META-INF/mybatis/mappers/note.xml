@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jhta.cope.dao.NoteDao">
+	
+	<select id="getNoteByBuyLectureNo" parameterType="int" resultType="Note">
+		select
+			NOTE_NO as no,
+			NOTE_CONTENT as "content",
+			NOTE_TITLE as "title",
+			BUY_LECTURE_NO as "buyLecture.no",
+			CREATE_DATE as createDate
+		from
+			PAID_LECTURE_NOTE
+		where
+			BUY_LECTURE_NO = #{value}
+		order by CREATE_DATE desc
+	</select>
+	
+	
+	<select id="getNoteByNoteNo" parameterType="int" resultType="Note">
+		select
+			NOTE_NO as no,
+			NOTE_CONTENT as "content",
+			NOTE_TITLE as "title",
+			BUY_LECTURE_NO as "buyLecture.no",
+			CREATE_DATE as createDate
+		from
+			PAID_LECTURE_NOTE
+		where
+			NOTE_NO = #{value}
+	</select>
+	
+	
+	<insert id="insertNote" parameterType="Note">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select note_no_seq.nextval from dual
+		</selectKey>
+		insert into PAID_LECTURE_NOTE(
+			NOTE_NO,
+			NOTE_TITLE,
+			NOTE_CONTENT,
+			CREATE_DATE,
+			BUY_LECTURE_NO)
+		values (#{no}, #{title}, #{content}, sysdate, #{buyLecture.no})
+	</insert>
+	
+	<update id="updateNote" parameterType="Note">
+			update
+				PAID_LECTURE_NOTE
+			set
+				NOTE_TITLE	= #{title},
+				NOTE_CONTENT = #{content},
+				CREATE_DATE = sysdate
+			where
+				NOTE_NO = #{no}
+	</update>
+	
+	
+	
+</mapper>

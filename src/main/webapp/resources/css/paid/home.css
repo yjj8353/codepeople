@@ -1,0 +1,218 @@
+@charset "UTF-8";
+
+.courses-photo {
+	width: 220px;
+	height: 150px;
+	margin: auto;
+}
+
+.paid-home-courses-banner-java {
+	background: -webkit-linear-gradient(left, rgba(255, 115, 115, 1) 0%,
+		rgba(175, 238, 238, 1) 100%);
+	background: -o-linear-gradient(left, rgba(255, 115, 115, 1) 0%,
+		rgba(175, 238, 238, 1) 100%);
+	background: linear-gradient(to right, rgba(255, 115, 115, 1) 0%,
+		rgba(175, 238, 238, 1) 100%);
+	min-height: 200px;
+	margin-top: 20px;
+}
+
+.paid-home-courses-banner-javascript {
+	background: linear-gradient(90deg, rgba(189, 118, 162, 1) 21%,
+		rgba(255, 230, 98, 1) 87%);
+	min-height: 200px;
+	margin-top: 20px;
+}
+
+.paid-home-courses-banner-spring {
+	background: linear-gradient(90deg, rgba(255, 233, 131, 1) 21%,
+		rgba(98, 255, 206, 1) 87%);
+	min-height: 200px;
+	margin-top: 20px;
+}
+
+#paid-home-courses-photo {
+	height: 95%; width : 100%;
+	object-fit: contain;
+	text-align: center;
+	width: 100%;
+}
+
+#paid-home-courses-title {
+	margin-top: 10px;
+	font-weight: 600;
+}
+
+#paid-home-courses-price {
+	margin-top: 70px;
+	font-size: 20px;
+	font-weight: 500;
+	text-align: right;
+}
+
+#paid-home-panel-top-title {
+	text-align: left;
+	margin-top: 20px;
+	font-weight: 800;
+}
+
+#paid-home-panel-top-instructor {
+	color: slategray;
+	font-size: 10px;
+}
+
+.checked {
+	color: orange;
+}
+
+#paid-home-panel-top-price {
+	font-size: 18px;
+	font-weight: 800;
+	text-align: right;
+}
+
+.paid-home-top-recommend li {
+	padding: 20px;
+	margin-right: 20px;
+	float: left;
+}
+
+.paid-home-top-recommend {
+	margin-top: 30px;
+}
+
+.paid-home-top-recommend li:hover {
+	border-bottom: 5px solid #ff7373;
+}
+
+.paid-home-top-recommend li a {
+	color: black;
+	text-decoration: none;
+}
+
+.paid-home-courses-contents-list {
+	margin-top: 50px;
+}
+
+#paid-home-courses-category {
+	margin-top: 50px;
+	color: white;
+}
+
+#paid-home-courses-description {
+	color: white;
+	font-size: 20px;
+}
+
+.paid-courses-content {
+	border: 1px solid #ff7373;
+	min-height: 100px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: 20px;
+}
+
+.paid-courses-content:hover {
+	background-color: #ff7373;
+	color: white;
+}
+
+#paid-home-courses-content-description {
+	font-weight: 300;
+}
+
+.paid-home-courseInfo-wrapper {
+	margin-top: 30px;
+}
+
+.paid-home-course-panelInfo {
+	position: relative;
+	color: red;
+}
+
+#panelInfo-wrapper {
+	background-color: white;
+	opacity: 0.9;
+}
+
+.paid-home-course-wrapper {
+	position: relative;
+	height: 350px;
+}
+
+.paid-home-info-overlay {
+	position: absolute;
+	top: 0px;
+	width: 253px;
+	height: 350px;
+	background: white;
+	opacity: 0.9;
+	display: none;
+}
+
+
+.overlay-wrapper {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top:30px;
+	color: black;
+}
+
+
+.overlay-date {
+	font-size: 10px;
+	color: red;
+	
+}
+
+.overlay-level {
+	font-size: 8px;
+	font-weight: 600;
+}
+
+.overlay-summary {
+	margin-top: 15px;
+	height: 100px;
+}
+
+
+.home-cart-btn {
+	margin-top:10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    min-width: 80px;
+    color: white;
+    
+}
+
+#home-nonLogin-btn {
+	margin-top:10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    min-width: 80px;
+    color: white;
+}
+
+#paid-home-below-contents {
+	color: inherit;
+}
+
+.selected {
+	border-bottom: 5px solid #ff7373;
+}
+
+.paid-home-panel-top-title-wrapper {
+	height: 100px;
+}
+
+.number-of-like {
+	font-weight: 800;
+	font-size:12px;
+	
+}

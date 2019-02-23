@@ -1,0 +1,16 @@
+버튼관련
+.sg-btn			- 버튼 사용 기본 베이스
+
+.sg-btn-primary		- 핑꾸색 버튼
+.sg-btn-secondary	- 옅은 하늘색 버튼
+.sg-btn-3rd		- 진한 하늘색 버튼
+
+.sg-nb			- (none-backgound) 버튼을 하얀색으로
+
+.sg-btn-xs		엄청 작은 버튼
+.sg-btn-sm		적당히 작은 버튼
+.sg-btn-md		중간 버튼
+.sg-btn-lg		큰버튼
+
+인풋
+sg-input-text	- 인풋 텍스트타입 primary

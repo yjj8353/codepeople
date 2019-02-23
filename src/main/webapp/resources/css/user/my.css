@@ -1,0 +1,211 @@
+.my-graph {
+	border-radius: 10px;
+	width:100%;
+	height: 8px;
+	background-color: lightgrey
+}
+
+.my-graph>div {
+	background-color: skyblue;
+	height: 100%;
+	border-radius: 10px;
+}
+
+.my-graph-info {
+	width: 100%;
+	font-size: 11px;
+	color: grey;
+}
+
+.my-graph-info>span:last-child {
+	float: right;
+}
+
+.sg-li {
+	width: 10px;
+	height: 10px;
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	display: inline-block;
+	position: absolute;
+	left: -5px;
+	background-color: white;
+	margin-top: 6px;
+}
+
+.sg-li:hover {
+	background-color: rgb(200, 255, 162)
+}
+
+.sg-text-sub {
+	color: grey;
+	font-size: 12px;
+}
+
+.info-container {
+	font-size: 16px;
+}
+
+dt {
+	width: 70px;
+	padding-left: 10px;
+	float: left;
+}
+
+dd {
+	padding-left: 200px;
+	margin-bottom: 10px;
+}
+
+.my-pay-item li {
+	padding: 0px 30px 50px 30px;
+	width: 45%;
+	display: inline-block;
+}
+
+.my-pay-item li:nth-child(2n-1) {
+	border-right: 1px solid lightgray;
+}
+
+.my-pay-item img:hover {
+	width: 200px;
+}
+
+
+.badge-top {
+	margin-bottom: 30px;
+}
+
+.sg-badge-tier {
+	text-align: center;
+}
+
+.sg-badge-tier div {
+	display: inline-block;
+	opacity: 0.5;
+}
+
+.sg-badge-tier div:hover {
+	opacity: 1;
+}
+
+.sg-badge-tier div.sg-active {
+	opacity: 1;
+	border-bottom: 1px solid #ff7070;
+}
+
+.sg-my-menu {
+	margin-left: 10px;
+	padding: 10px 40px 10px 40px;
+	display: inline-block;
+	font-size: 17px;
+}
+
+.sg-my-menu a{
+	color:gray;
+}
+
+.sg-menu-select a{
+	color:black;
+	font-weight:bold;
+}
+.sg-active span {
+	font-size: 16px;
+	margin: 3px;
+	font-weight: bold;
+}
+
+.sg-badge-tier div>img {
+	border-radius: 100px;
+	background-color: silver;
+}
+
+.sg-badge-sub {
+	display: inline-block;
+	width: 28%;
+	background-color: white;
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 20px;
+	margin-right: 40px;
+	margin-bottom: 30px;
+}
+
+.sg-badge-box {
+	display: inline-block;
+	border: 2px solid #ff5050;
+	border-radius: 100px;
+	text-align: center;
+	padding: 2px;
+	background: #ff7878;
+}
+
+.sg-badge-box i {
+	padding: 6px;
+	width: 55px;
+	height: 55px;
+	font-size: 35px;
+	background-color: white;
+	border: 3px solid #ffb1b1;
+	border-radius: 50px;
+}
+
+.sg-badge-success>.sg-badge-
+    .sg-badge-sub>span {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	background-color: #008aa2;
+	margin: 10px;
+	width: 50px;
+	height: 30px;
+	border-radius: 5px;
+	color: white;
+	text-align: center;
+	padding: 3px;
+	font-size: 17px;
+}
+
+.label-primary {
+	background: #ff7373;
+	font-size: 15px;
+	position: absolute;
+}
+
+.sg-badge-exp {
+	float: right;
+	line-height: 30px;
+	display: block;
+	height: 30px;
+}
+
+.sg-badge-contents>p {
+	margin: 0px
+}
+
+.sg-badge-contents>h3 {
+	margin: 0px;
+	margin-bottom: 5px;
+}
+
+.sg-badge-contents {
+	width: 50%;
+	display: inline-block;
+	margin-left: 30px;
+}
+
+.sg-badge-default>.sg-badge-sub {
+	opacity: 0.5;
+}
+
+.sg-badge-default>.sg-badge-sub:hover {
+	opacity: 1;
+}
+
+.my-review-item li {
+	margin-bottom: 5px;
+}
+
+.my-pay-item li {
+	padding-bottom: 50px;
+}

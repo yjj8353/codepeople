@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jhta.cope.dao.InstructorDao">
+
+	<select id="getInstructorByNo" parameterType="int" resultType="Instructor">
+		select 
+			INSTRUCTOR_NO as no,
+			USER_NO as "user.no",
+			INSTRUCTOR_SUMMARY as summary,
+			INSTRUCTOR_DESCRIPTION as description
+		from 
+			INSTRUCTOR
+		where 
+			INSTRUCTOR_NO = #{value}
+	</select>
+
+	<select id="getInstructorByUserNo" parameterType="int" resultType="Instructor">
+		select 
+			INSTRUCTOR_NO as no,
+			USER_NO as "user.no",
+			INSTRUCTOR_SUMMARY as summary,
+			INSTRUCTOR_DESCRIPTION as description
+		from 
+			INSTRUCTOR
+		where 
+			USER_NO = #{value}
+	</select>
+	
+	
+	<insert id="insertInstructor" parameterType="Instructor">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select instructor_no_seq.nextval from dual
+		</selectKey>
+	
+		insert into INSTRUCTOR (
+			INSTRUCTOR_NO,
+			USER_NO,
+			INSTRUCTOR_SUMMARY,
+			INSTRUCTOR_DESCRIPTION)
+		values (#{no}, #{user.no}, #{summary}, #{description})
+		
+	</insert>
+	
+	
+	
+	<insert id="insertPaidLecture" parameterType="PaidLecture">
+		insert into PAID_LECTURE (
+			PAID_LECTURE_NO,
+			INSTRUCTOR_NO,
+			LECTURE_TITLE,
+			LECTURE_LANG,
+			LECTURE_LEVEL,
+			LECTURE_DESCRIPTION,
+			LECTURE_SUMMARY,
+			LECTURE_SPECIALIZED,
+			LECTURE_PRICE,
+			LECTURE_THUMNAIL_PATH,
+			LECTURE_CREATE_DATE,
+			LECTURE_LIKES,
+			LECTURE_VIEW_COUNT,
+			EXPOSURE_STATUS,
+			APPROVE_STATUS			
+		)
+		values (paid_lecture_seq.nextval, #{instructor.no }, #{title }, #{lang }, #{level }, #{description }, #{summary }, #{specialized }, #{price }, #{thumbnail }, sysdate, 0, 0, 'N', 'N')	
+	</insert>
+
+		
+	
+</mapper>

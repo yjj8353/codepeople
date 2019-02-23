@@ -1,0 +1,144 @@
+@charset "UTF-8";
+
+
+.instructor-banner {
+background: rgb(81,0,255);
+background: linear-gradient(90deg, rgba(81,0,255,1) 0%, rgba(255,127,172,1) 100%);
+    min-height: 200px;
+    margin-top:20px;
+    margin-bottom: 30px;
+}
+
+#instructor-banner-name {
+    margin-top:50px;
+    color: white;
+}
+
+#instructor-banner-description {
+    color: white;
+    font-size: 20px;
+}
+
+#btn-course-register {
+	float: right;
+	padding-right: 100px;
+	padding-left:100px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	cursor: pointer;
+	padding: 6px 90px 6px 90px;
+	font-weight: bold;
+	font-family: 'Noto Sans KR', sans-serif;
+	transition: 0.3s;
+	background-color: white;
+	color: #ff7373;
+	
+}
+
+
+.instructor-home-top-menu li {
+	padding: 20px;
+	margin-right: 20px;
+	float: left;
+}
+
+.instructor-home-top-menu {
+	margin-top: 10px;
+}
+
+.instructor-home-top-menu li:hover {
+	border-bottom: 5px solid #ff7373;
+}
+
+.instructor-home-top-menu li a {
+	color: black;
+	text-decoration: none;
+}
+
+.selected {
+	border-bottom: 5px solid #ff7373;
+}
+
+
+#btn-course-register-dropdown {
+	padding-right: 70px;
+	padding-left: 70px;
+	text-align: center;
+}
+
+
+
+
+
+
+
+.instructor-main-contents-list {
+	margin-top: 20px;
+}
+
+#instructor-main-below-contents {
+	color: inherit;
+}
+
+.instructor-main-courses-content {
+	border: 1px solid #ff7373;
+	min-height: 100px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: 20px;
+}
+
+.instructor-main-courses-content:hover {
+	background-color: #ff7373;
+	color: white;
+}
+
+#instructor-main-courses-photo {
+	height: 95%; width : 100%;
+	object-fit: contain;
+	text-align: center;
+	width: 100%;
+}
+
+.instructor-main-courseInfo-wrapper {
+	border-right: 1px solid lightgray;
+	height: 150px;
+	
+}
+
+.instructor-main-courses-price {
+	font-size : 20px;
+	font-weight: 600;
+}
+
+#instructor-main-courses-title {
+	height: auto;
+	margin-top: 10px;
+	font-weight: 600;
+}
+
+.courses-photo {
+	width: 220px;
+	height: 150px;
+	margin: auto;
+}
+
+.badge-success {
+	background: green;
+}
+
+.badge-warning {
+	background: orange;
+}
+
+.instructor-info-small-title {
+	font-size: 10px;
+	color: gray;
+}
+
+.instructor-info-small-content {
+	font-size:15px;
+	font-weight: 600;
+	margin-top:2px;
+}
+

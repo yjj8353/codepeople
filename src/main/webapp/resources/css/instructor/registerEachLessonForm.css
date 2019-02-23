@@ -1,0 +1,102 @@
+@charset "UTF-8";
+
+.title-box {
+	border: 6px solid #ff7373;
+	background-color: white;
+	height: 53px;
+	width: 100%;
+	color: black;
+	font-size: 20px;
+	text-align: center;
+}
+
+.title-box::placeholder {
+  margin-left: 10px;
+  text-align: center;
+  color: gray;
+  opacity: 0.7; /* Firefox */
+}
+
+input:focus:not(.btn):not(#filePath) {
+    outline: none;
+	border: 6px solid #ff7373;
+}
+
+.small-title {
+	margin-bottom : 25px;
+}
+
+body {
+	text-align: center;
+}
+
+input { 
+	cursor: pointer;
+    text-align: center; 
+}
+
+.create-lecture-save {
+	padding-right: 100px;
+	padding-left:100px;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 6px 90px 6px 90px;
+	font-weight: bold;
+	font-family: 'Noto Sans KR', sans-serif;
+	transition: 0.3s;
+	background-color:  #ff7373;
+	color: white;
+}
+
+.create-lecture-cancel {
+	padding-right: 100px;
+	padding-left:100px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+	cursor: pointer;
+	font-weight: bold;
+	font-family: 'Noto Sans KR', sans-serif;
+	transition: 0.3s;
+	background-color: white;
+	color: #ff7373;
+	margin-right: 10px;
+	
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#holderVideoWrapper {
+	border: 10px solid #ff7373;
+	width : 420px;
+	height: 245px;
+	margin : auto;
+}
+
+#holderVideo {
+	display: none;
+}
+
+.replace {
+ 
+ position: relative;
+	border-radius: 5px;
+	border: 3px solid #ff7373;
+	cursor: pointer;
+	padding: 6px 120px 6px 120px;
+	font-weight: bold;
+	font-family: 'Noto Sans KR', sans-serif;
+	transition: 0.3s;
+	background-color: #ff7373;
+	color: white;
+	cursor: pointer;
+	
+}
+
+#filePath {
+	margin-left: 400px;
+	position: relative;
+}
